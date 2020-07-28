@@ -6,6 +6,7 @@ import functions.commutative.Sum;
 import functions.endpoint.Constant;
 import functions.endpoint.Variable;
 import tools.DefaultFunctions;
+import tools.exceptions.NotYetImplementedException;
 
 import java.util.Arrays;
 
@@ -31,6 +32,13 @@ public class Space {
         defMetric(x);
     }
 
+    public Space(String[] variableNames, GeneralFunction[][] x) {
+        dim = variableNames.length;
+        variableStrings = variableNames;
+        variables = Arrays.stream(variableNames).map(Variable::new).toArray(Variable[]::new);
+        defMetric(x);
+    }
+
     public void defMetric(GeneralFunction... x) {
         if (x.length != dim)
             throw new IllegalArgumentException("Expected " + dim + " functions but instead got " + x.length + ".");
@@ -50,6 +58,23 @@ public class Space {
 
         metric = new Metric(this, metricMatrix);
         inverseMetric = new InverseMetric(this, inverseMetricMatrix);
+    }
+
+    public void defMetric(GeneralFunction[][] x) {
+        throw new NotYetImplementedException("We dont invert matrices yet.");
+//        if (x.length != dim || x[0].length != dim)
+//            throw new IllegalArgumentException("Expected " + dim + " dimensions but instead got " + x.length + ".");
+//
+//        GeneralFunction[][] metricMatrix = x;
+//        GeneralFunction[][] inverseMetricMatrix = x;
+//
+//        for (int i = 0; i < x.length; i++) {
+//            metricMatrix[i][i] = x[i].simplify();
+//            inverseMetricMatrix[i][i] = DefaultFunctions.reciprocal(x[i]).simplify();
+//        }
+//
+//        metric = new Metric(this, metricMatrix);
+//        inverseMetric = new InverseMetric(this, inverseMetricMatrix);
     }
 
     public GeneralFunction[][][] christoffelConnection() {
