@@ -39,8 +39,6 @@ public class GR {
         inverseMetricTensor[1][1] = new Pow(new Constant(-2), r);
         inverseMetricTensor[2][2] = new Product(new Pow(new Constant(-2), r), new Pow(new Constant(-2), new Sin(θ)));
 
-        System.out.println(Arrays.toString(metricTensor));
-
         for (int μ = 0; μ < 3; μ++) {
             for (int σ = 0; σ < 3; σ++) {
                 for (int ν = 0; ν < 3; ν++) {
