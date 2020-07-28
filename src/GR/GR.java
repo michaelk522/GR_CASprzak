@@ -18,6 +18,8 @@ public class GR {
         Variable θ = new Variable("θ");
         Variable φ = new Variable("φ");
 
+        int dim = 3;
+
 
         String[] variables = {"r",
                               "θ",
@@ -39,13 +41,13 @@ public class GR {
         inverseMetricTensor[1][1] = new Pow(new Constant(-2), r);
         inverseMetricTensor[2][2] = new Product(new Pow(new Constant(-2), r), new Pow(new Constant(-2), new Sin(θ)));
 
-        for (int μ = 0; μ < 3; μ++) {
-            for (int σ = 0; σ < 3; σ++) {
-                for (int ν = 0; ν < 3; ν++) {
+        for (int μ = 0; μ < dim; μ++) {
+            for (int σ = 0; σ < dim; σ++) {
+                for (int ν = 0; ν < dim; ν++) {
 
                     GeneralFunction[] sum = new GeneralFunction[3];
 
-                    for (int ρ = 0; ρ < 3; ρ++) {
+                    for (int ρ = 0; ρ < dim; ρ++) {
                         sum[ρ] = new Product(inverseMetricTensor[σ][ρ], new Sum(metricTensor[ν][ρ].getSimplifiedDerivative(variables[μ]),
                                                                                 metricTensor[ρ][μ].getSimplifiedDerivative(variables[ν]),
                                                       DefaultFunctions.negative(metricTensor[μ][ν].getSimplifiedDerivative(variables[ρ]))));
