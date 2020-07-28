@@ -44,23 +44,16 @@ public class GR {
         for (int μ = 0; μ < 3; μ++) {
             for (int σ = 0; σ < 3; σ++) {
                 for (int ν = 0; ν < 3; ν++) {
-                    GeneralFunction zeroth;
-                    GeneralFunction first;
-                    GeneralFunction second;
 
-                    zeroth = new Product(inverseMetricTensor[σ][0], new Sum(metricTensor[ν][0].getSimplifiedDerivative(variables[μ]),
-                                                                            metricTensor[0][μ].getSimplifiedDerivative(variables[ν]),
-                                                  DefaultFunctions.negative(metricTensor[μ][ν].getSimplifiedDerivative(variables[0]))));
+                    GeneralFunction[] sum = new GeneralFunction[3];
 
-                    first = new Product(inverseMetricTensor[σ][1], new Sum(metricTensor[ν][1].getSimplifiedDerivative(variables[μ]),
-                                                                           metricTensor[1][μ].getSimplifiedDerivative(variables[ν]),
-                                                 DefaultFunctions.negative(metricTensor[μ][ν].getSimplifiedDerivative(variables[1]))));
+                    for (int ρ = 0; ρ < 3; ρ++) {
+                        sum[ρ] = new Product(inverseMetricTensor[σ][ρ], new Sum(metricTensor[ν][ρ].getSimplifiedDerivative(variables[μ]),
+                                                                                metricTensor[ρ][μ].getSimplifiedDerivative(variables[ν]),
+                                                      DefaultFunctions.negative(metricTensor[μ][ν].getSimplifiedDerivative(variables[ρ]))));
+                    }
 
-                    second = new Product(inverseMetricTensor[σ][2], new Sum(metricTensor[ν][2].getSimplifiedDerivative(variables[μ]),
-                                                                            metricTensor[2][μ].getSimplifiedDerivative(variables[ν]),
-                                                  DefaultFunctions.negative(metricTensor[μ][ν].getSimplifiedDerivative(variables[2]))));
-
-                    christoffelConnection[μ][σ][ν] = new Product(new Constant(0.5), new Sum(zeroth, first, second)).simplify();
+                    christoffelConnection[μ][σ][ν] = new Product(new Constant(0.5), new Sum(sum)).simplify();
                     System.out.println(variables[μ] + " " + variables[σ] + " " + variables[ν] + " : " + christoffelConnection[μ][σ][ν].toString());
                 }
             }
