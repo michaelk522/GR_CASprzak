@@ -10,8 +10,9 @@ public class Space {
     public int dim;
     public String[] variableStrings;
     public Variable[] variables;
-    public GeneralFunction[][] metric;
-    public GeneralFunction[][] inverseMetric;
+
+    public Metric metric;
+    public InverseMetric inverseMetric;
 
     public Space(String... variableNames) {
         dim = variableNames.length;
@@ -22,10 +23,15 @@ public class Space {
     public void defMetric(GeneralFunction... x) {
         if (x.length != dim)
             throw new IllegalArgumentException("Expected " + dim + " functions but instead got " + x.length + ".");
+
+        GeneralFunction[][] metricMatrix = new GeneralFunction[dim][dim];
+        GeneralFunction[][] inverseMetricMatrix = new GeneralFunction[dim][dim];
         for (int i = 0; i < x.length; i++) {
-            metric[i][i] = x[i].simplify();
-            inverseMetric[i][i] = DefaultFunctions.reciprocal(x[i]).simplify();
+            metricMatrix[i][i] = x[i].simplify();
+            inverseMetricMatrix[i][i] = DefaultFunctions.reciprocal(x[i]).simplify();
         }
+        metric = new Metric(this, metricMatrix);
+        inverseMetric = new InverseMetric(this, inverseMetricMatrix);
     }
 
 
