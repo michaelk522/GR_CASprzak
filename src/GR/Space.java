@@ -171,29 +171,10 @@ public class Space {
         int counter = 0;
         for (int μ = 0; μ < dim; μ++) {
             for (int ν = 0; ν < dim; ν++) {
-                System.out.println(μ);
-                System.out.println(variableStrings[μ]);
-                System.out.println(ν);
-                System.out.println(variableStrings[ν]);
-                System.out.println(Arrays.deepToString(metric.matrix));
 
-                System.out.println(new Differential(variableStrings[μ]));
-                System.out.println(metric.matrix[μ][ν]);
-                System.out.println(new Differential(variableStrings[ν]));
-
-                GeneralFunction a = new Differential(variableStrings[μ]);
-                GeneralFunction b = metric.matrix[μ][ν];
-                GeneralFunction c = new Differential(variableStrings[ν]);
-
-                System.out.println(a);
-                System.out.println(b);
-                System.out.println(c);
-
-//                sum[counter] = new Product(new Differential(variableStrings[μ]),
-//                        metric.matrix[μ][ν],
-//                        new Differential(variableStrings[ν]));
-
-                sum[counter] = new Product(a, b, c);
+                sum[counter] = new Product(new Differential(variableStrings[μ]),
+                        metric.matrix[μ][ν],
+                        new Differential(variableStrings[ν]));
 
                 counter++;
             }
