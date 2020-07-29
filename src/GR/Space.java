@@ -131,6 +131,27 @@ public class Space {
         return riemannTensor;
     }
 
+    public GeneralFunction[][] ricciTensor() {
+        GeneralFunction[][] ricciTensor = new GeneralFunction[dim][dim];
+        GeneralFunction[][][][] R = riemannTensor();
+        for (int ρ = 0; ρ < dim; ρ++) {
+            for (int ν = 0; ν < dim; ν++) {
+
+                GeneralFunction[] sum = new GeneralFunction[dim];
+
+                for (int λ = 0; λ < dim; λ++) {
+                    sum[λ] = R[λ][ρ][λ][ν];
+                }
+
+                ricciTensor[ρ][ν] = new Sum(sum).simplify();
+                System.out.println(variableStrings[ρ] + " " +variableStrings[ν] + " : " + ricciTensor[ρ][ν].toString());
+
+            }
+        }
+
+        return ricciTensor;
+    }
+
     public GeneralFunction ds() {
         GeneralFunction[] sum = new GeneralFunction[dim*dim];
         int counter = 0;

@@ -13,11 +13,13 @@ public class GR {
 
 
         System.out.println();
-        System.out.println(Arrays.deepToString(DefaultSpaces.s2.metric.matrix));
+        System.out.println(Arrays.deepToString(DefaultSpaces.polar.metric.matrix));
         System.out.println();
 //        System.out.println(Arrays.deepToString(DefaultSpaces.cartesian3d.christoffelConnection()));
 //        System.out.println();
-        System.out.println(Arrays.deepToString(DefaultSpaces.s2.riemannTensor()));
+//        System.out.println(Arrays.deepToString(DefaultSpaces.polar.riemannTensor()));
+//        System.out.println();
+        System.out.println(Arrays.deepToString(DefaultSpaces.s2.ricciTensor()));
 
 
 
