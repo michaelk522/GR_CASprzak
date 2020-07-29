@@ -10,7 +10,8 @@ import tools.exceptions.NotYetImplementedException;
 
 import java.util.Arrays;
 
-@SuppressWarnings("ALL")
+
+@SuppressWarnings("NonAsciiCharacters")
 public class Space {
     public int dim;
     public String[] variableStrings;
@@ -83,7 +84,7 @@ public class Space {
             for (int σ = 0; σ < dim; σ++) {
                 for (int ν = 0; ν < dim; ν++) {
 
-                    GeneralFunction[] sum = new GeneralFunction[3];
+                    GeneralFunction[] sum = new GeneralFunction[dim];
 
                     for (int ρ = 0; ρ < dim; ρ++) {
                         sum[ρ] = new Product(inverseMetric.matrix[σ][ρ], new Sum(metric.matrix[ν][ρ].getSimplifiedDerivative(variableStrings[μ]),
