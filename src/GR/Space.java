@@ -152,6 +152,20 @@ public class Space {
         return ricciTensor;
     }
 
+    public GeneralFunction ricciScalar() {
+        GeneralFunction[][] R = ricciTensor();
+
+        GeneralFunction[] sum1 = new GeneralFunction[dim];
+        for (int ν = 0; ν < dim; ν++) {
+            GeneralFunction[] sum2 = new GeneralFunction[dim];
+            for (int μ = 0; μ < dim; μ++) {
+                sum2[μ] = new Product(inverseMetric.matrix[ν][μ], R[μ][ν]);
+            }
+            sum1[ν] = new Sum(sum2).simplify();
+        }
+         return new Sum(sum1).simplify();
+    }
+
     public GeneralFunction ds() {
         GeneralFunction[] sum = new GeneralFunction[dim*dim];
         int counter = 0;

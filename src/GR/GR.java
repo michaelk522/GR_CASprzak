@@ -19,7 +19,8 @@ public class GR {
 //        System.out.println();
 //        System.out.println(Arrays.deepToString(DefaultSpaces.polar.riemannTensor()));
 //        System.out.println();
-        System.out.println(Arrays.deepToString(DefaultSpaces.s2.ricciTensor()));
+        System.out.println();
+        System.out.println(DefaultSpaces.s3.ricciScalar());
 
 
 
