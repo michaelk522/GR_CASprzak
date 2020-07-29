@@ -75,7 +75,8 @@ public class Space {
                     GeneralFunction[] sum = new GeneralFunction[dim];
 
                     for (int ρ = 0; ρ < dim; ρ++) {
-                        sum[ρ] = new Product(inverseMetric.matrix[σ][ρ], new Sum(metric.matrix[ν][ρ].getSimplifiedDerivative(variableStrings[μ]),
+                        sum[ρ] = new Product(
+                                inverseMetric.matrix[σ][ρ], new Sum(metric.matrix[ν][ρ].getSimplifiedDerivative(variableStrings[μ]),
                                 metric.matrix[ρ][μ].getSimplifiedDerivative(variableStrings[ν]),
                                 DefaultFunctions.negative(metric.matrix[μ][ν].getSimplifiedDerivative(variableStrings[ρ]))));
                     }
@@ -86,6 +87,48 @@ public class Space {
             }
         }
         return christoffelConnection;
+    }
+
+    public GeneralFunction[][][][] riemannTensor() {
+        GeneralFunction[][][][] riemannTensor = new GeneralFunction[dim][dim][dim][dim];
+        GeneralFunction[][][] Γ = christoffelConnection();
+        for (int λ = 0; λ < dim; λ++) {
+            for (int ρ = 0; ρ < dim; ρ++) {
+                for (int μ = 0; μ < dim; μ++) {
+                    for (int ν = 0; ν < dim; ν++) {
+
+                        GeneralFunction[] sum1 = new GeneralFunction[4];
+
+                        sum1[0] = Γ[ν][λ][ρ].getSimplifiedDerivative(variableStrings[μ]);
+
+                        sum1[1] = DefaultFunctions.negative(Γ[μ][λ][ρ].getSimplifiedDerivative(variableStrings[ν]));
+
+                        GeneralFunction[] sum2 = new GeneralFunction[dim];
+                        for (int α = 0; α < dim; α++) {
+                            sum2[α] = new Product(
+                                    Γ[μ][λ][α],
+                                    Γ[ν][α][ρ]
+                            );
+                        }
+                        sum1[2] = new Sum(sum2).simplify();
+
+                        GeneralFunction[] sum3 = new GeneralFunction[dim];
+                        for (int α = 0; α < dim; α++) {
+                            sum3[α] = new Product(
+                                    Γ[ν][λ][α],
+                                    Γ[μ][α][ρ]
+                            );
+                        }
+                        sum1[3] = DefaultFunctions.negative(new Sum(sum3)).simplify();
+
+                        riemannTensor[λ][ρ][μ][ν] = new Sum(sum1).simplify();
+                        System.out.println(variableStrings[λ] + " " + variableStrings[ρ] + " " + variableStrings[μ] + " " +variableStrings[ν] + " : " + riemannTensor[λ][ρ][μ][ν].toString());
+                    }
+                }
+            }
+        }
+
+        return riemannTensor;
     }
 
     public GeneralFunction ds() {
