@@ -38,4 +38,11 @@ public class DefaultSpaces {
                                                                                                             new Constant(1),
                                                                                                             new Constant(1),
                                                                                                             new Constant(1)});
+
+    public static final Space s2 = new Space(new String[]{"θ", "φ"}, new GeneralFunction[]{new Constant(1),
+                                                                                           new Pow(new Constant(2), new Sin(new Variable("θ")))});
+
+    public static final Space s3 = new Space(new String[]{"ψ", "θ", "φ"}, new GeneralFunction[]{new Constant(1),
+                                                                                                new Pow(new Constant(2), new Sin(new Variable("ψ"))),
+                                                                                                new Pow(new Constant(2), new Product(new Sin(new Variable("ψ")), new Sin(new Variable("θ"))))});
 }

@@ -5,6 +5,7 @@ import functions.commutative.Product;
 import functions.commutative.Sum;
 import functions.endpoint.Constant;
 import functions.endpoint.Variable;
+import functions.unitary.transforms.Differential;
 import tools.DefaultFunctions;
 import tools.exceptions.NotYetImplementedException;
 
@@ -63,19 +64,6 @@ public class Space {
 
     public void defMetric(GeneralFunction[][] x) {
         throw new NotYetImplementedException("We dont invert matrices yet.");
-//        if (x.length != dim || x[0].length != dim)
-//            throw new IllegalArgumentException("Expected " + dim + " dimensions but instead got " + x.length + ".");
-//
-//        GeneralFunction[][] metricMatrix = x;
-//        GeneralFunction[][] inverseMetricMatrix = x;
-//
-//        for (int i = 0; i < x.length; i++) {
-//            metricMatrix[i][i] = x[i].simplify();
-//            inverseMetricMatrix[i][i] = DefaultFunctions.reciprocal(x[i]).simplify();
-//        }
-//
-//        metric = new Metric(this, metricMatrix);
-//        inverseMetric = new InverseMetric(this, inverseMetricMatrix);
     }
 
     public GeneralFunction[][][] christoffelConnection() {
@@ -98,6 +86,41 @@ public class Space {
             }
         }
         return christoffelConnection;
+    }
+
+    public GeneralFunction ds() {
+        GeneralFunction[] sum = new GeneralFunction[dim*dim];
+        int counter = 0;
+        for (int μ = 0; μ < dim; μ++) {
+            for (int ν = 0; ν < dim; ν++) {
+                System.out.println(μ);
+                System.out.println(variableStrings[μ]);
+                System.out.println(ν);
+                System.out.println(variableStrings[ν]);
+                System.out.println(Arrays.deepToString(metric.matrix));
+
+                System.out.println(new Differential(variableStrings[μ]));
+                System.out.println(metric.matrix[μ][ν]);
+                System.out.println(new Differential(variableStrings[ν]));
+
+                GeneralFunction a = new Differential(variableStrings[μ]);
+                GeneralFunction b = metric.matrix[μ][ν];
+                GeneralFunction c = new Differential(variableStrings[ν]);
+
+                System.out.println(a);
+                System.out.println(b);
+                System.out.println(c);
+
+//                sum[counter] = new Product(new Differential(variableStrings[μ]),
+//                        metric.matrix[μ][ν],
+//                        new Differential(variableStrings[ν]));
+
+                sum[counter] = new Product(a, b, c);
+
+                counter++;
+            }
+        }
+        return DefaultFunctions.sqrt(new Sum(sum)).simplify();
     }
 
 
