@@ -76,9 +76,10 @@ public class Space {
 
                     for (int ρ = 0; ρ < dim; ρ++) {
                         sum[ρ] = new Product(
-                                inverseMetric.matrix[σ][ρ], new Sum(metric.matrix[ν][ρ].getSimplifiedDerivative(variableStrings[μ]),
-                                metric.matrix[ρ][μ].getSimplifiedDerivative(variableStrings[ν]),
-                                DefaultFunctions.negative(metric.matrix[μ][ν].getSimplifiedDerivative(variableStrings[ρ]))));
+                                inverseMetric.matrix[σ][ρ],
+                                new Sum(metric.matrix[ν][ρ].getSimplifiedDerivative(variableStrings[μ]),
+                                        metric.matrix[ρ][μ].getSimplifiedDerivative(variableStrings[ν]),
+                                        DefaultFunctions.negative(metric.matrix[μ][ν].getSimplifiedDerivative(variableStrings[ρ]))));
                     }
 
                     christoffelConnection[μ][σ][ν] = new Product(new Constant(0.5), new Sum(sum)).simplify();
@@ -180,6 +181,19 @@ public class Space {
             }
         }
         return DefaultFunctions.sqrt(new Sum(sum)).simplify();
+    }
+
+    public GeneralFunction[][] einsteinTensor() {
+        GeneralFunction[][] G = ricciTensor();
+        GeneralFunction R = ricciScalar();
+
+        for (int μ = 0; μ < dim; μ++) {
+            for (int ν = 0; ν < dim; ν++) {
+                G[μ][ν] = new Sum(G[μ][ν], DefaultFunctions.negative(new Product(new Constant(0.5), metric.matrix[μ][ν], R))).simplify();
+            }
+        }
+
+        return G;
     }
 
 
