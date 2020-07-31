@@ -190,6 +190,7 @@ public class Space {
         for (int μ = 0; μ < dim; μ++) {
             for (int ν = 0; ν < dim; ν++) {
                 G[μ][ν] = new Sum(G[μ][ν], DefaultFunctions.negative(new Product(new Constant(0.5), metric.matrix[μ][ν], R))).simplify();
+                System.out.println(variableStrings[μ] + " " +variableStrings[ν] + " : " + G[μ][ν].toString());
             }
         }
 
