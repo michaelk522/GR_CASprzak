@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class Product extends CommutativeFunction {
 
-	private static final Collector<CharSequence, ?, String> joiningCollector = Collectors.joining(" * ", "(", ")");
+	private static final Collector<CharSequence, ?, String> joiningCollector = Collectors.joining("", "(", ")");
 
 	/**
 	 * Constructs a new {@link Product}
