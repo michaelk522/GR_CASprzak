@@ -16,6 +16,7 @@ public class DefaultSpaces {
     public static final Variable y = new Variable("y");
     public static final Variable z = new Variable("z");
     public static final Variable r = new Variable("r");
+    public static final Variable r_s = new Variable("\r_s");
     public static final Variable θ = new Variable("θ");
     public static final Variable φ = new Variable("φ");
     public static final Variable ψ = new Variable("ψ");
@@ -81,8 +82,8 @@ public class DefaultSpaces {
     });
 
     public static final Space schwarzschildInSchwarzschildCoordinates = new Space(new String[]{"t", "r", "θ", "φ"}, new GeneralFunction[]{
-            negative(  subtract(ONE, new Product(TWO, G, M, reciprocal(r)))),
-            reciprocal(subtract(ONE, new Product(TWO, G, M, reciprocal(r)))),
+            negative(  subtract(ONE, new Product(r_s, reciprocal(r)))),
+            reciprocal(subtract(ONE, new Product(r_s, reciprocal(r)))),
             square(r),
             square(new Product(r, new Sin(θ)))
     });
