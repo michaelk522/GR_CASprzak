@@ -11,6 +11,8 @@ import tools.exceptions.NotYetImplementedException;
 
 import java.util.Arrays;
 
+import static tools.DefaultFunctions.*;
+
 
 @SuppressWarnings("NonAsciiCharacters")
 public class Space {
@@ -79,7 +81,7 @@ public class Space {
                                 inverseMetric.matrix[σ][ρ],
                                 new Sum(metric.matrix[ν][ρ].getSimplifiedDerivative(variableStrings[μ]),
                                         metric.matrix[ρ][μ].getSimplifiedDerivative(variableStrings[ν]),
-                                        DefaultFunctions.negative(metric.matrix[μ][ν].getSimplifiedDerivative(variableStrings[ρ]))));
+                                        negative(metric.matrix[μ][ν].getSimplifiedDerivative(variableStrings[ρ]))));
                     }
 
                     christoffelConnection[μ][σ][ν] = new Product(new Constant(0.5), new Sum(sum)).simplify();
@@ -102,7 +104,7 @@ public class Space {
 
                         sum1[0] = Γ[ν][λ][ρ].getSimplifiedDerivative(variableStrings[μ]);
 
-                        sum1[1] = DefaultFunctions.negative(Γ[μ][λ][ρ].getSimplifiedDerivative(variableStrings[ν]));
+                        sum1[1] = negative(Γ[μ][λ][ρ].getSimplifiedDerivative(variableStrings[ν]));
 
                         GeneralFunction[] sum2 = new GeneralFunction[dim];
                         for (int α = 0; α < dim; α++) {
@@ -120,7 +122,7 @@ public class Space {
                                     Γ[μ][α][ρ]
                             );
                         }
-                        sum1[3] = DefaultFunctions.negative(new Sum(sum3)).simplify();
+                        sum1[3] = negative(new Sum(sum3)).simplify();
 
                         riemannTensor[λ][ρ][μ][ν] = new Sum(sum1).simplify();
                         System.out.println(variableStrings[λ] + " " + variableStrings[ρ] + " " + variableStrings[μ] + " " +variableStrings[ν] + " : " + riemannTensor[λ][ρ][μ][ν].toString());
@@ -189,7 +191,7 @@ public class Space {
 
         for (int μ = 0; μ < dim; μ++) {
             for (int ν = 0; ν < dim; ν++) {
-                G[μ][ν] = new Sum(G[μ][ν], DefaultFunctions.negative(new Product(new Constant(0.5), metric.matrix[μ][ν], R))).simplify();
+                G[μ][ν] = new Sum(G[μ][ν], negative(new Product(new Constant(0.5), metric.matrix[μ][ν], R))).simplify();
                 System.out.println(variableStrings[μ] + " " +variableStrings[ν] + " : " + G[μ][ν].toString());
             }
         }
