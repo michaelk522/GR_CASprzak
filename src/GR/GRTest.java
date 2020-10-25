@@ -209,5 +209,25 @@ public class GRTest {
         assertTrue(isDiagonal(test));
     }
 
+    @Test
+    void isSymmetricTrue() {
+        GeneralFunction[][] test = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, TWO},
+                new GeneralFunction[]{TWO, TEN}
+        };
+
+        assertTrue(isSymmetric(test));
+    }
+
+    @Test
+    void isSymmetricFalse() {
+        GeneralFunction[][] test = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ZERO},
+                new GeneralFunction[]{TWO, TEN}
+        };
+
+        assertFalse(isSymmetric(test));
+    }
+
 
 }
