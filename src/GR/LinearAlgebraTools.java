@@ -143,4 +143,14 @@ public class LinearAlgebraTools {
         return inverse;
     }
 
+    public static GeneralFunction determinantDiagonalMatrix(GeneralFunction[][] input) {
+        GeneralFunction[] terms = new GeneralFunction[input.length];
+
+        for (int i = 0; i < input.length; i++) {
+            terms[i] = input[i][i];
+        }
+
+        return new Product(terms).simplify();
+    }
+
 }
