@@ -1,16 +1,13 @@
 package GR;
 
 import functions.GeneralFunction;
-import functions.binary.Pow;
 import functions.commutative.Product;
 import functions.commutative.Sum;
 import functions.endpoint.Constant;
 import functions.endpoint.Variable;
 import functions.unitary.trig.normal.Sin;
-import tools.DefaultFunctions;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import static GR.DefaultSpaces.*;
 import static tools.DefaultFunctions.*;
@@ -74,6 +71,9 @@ public class GR {
         );
 
         System.out.println(Arrays.deepToString(torusIn4D.ricciTensor()));
+
+
+        System.out.println(Arrays.deepToString(polar.riemannTensor()));
 
     }
 

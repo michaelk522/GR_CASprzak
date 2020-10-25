@@ -90,123 +90,33 @@ public class Space {
     }
 
     public GeneralFunction[][][] christoffelConnection() {
-        if (this.christoffelConnection == null) {
-            GeneralFunction[][][] christoffelConnection = new GeneralFunction[dim][dim][dim];
-            for (int μ = 0; μ < dim; μ++) {
-                for (int σ = 0; σ < dim; σ++) {
-                    for (int ν = 0; ν < dim; ν++) {
-
-                        GeneralFunction[] sum = new GeneralFunction[dim];
-
-                        for (int ρ = 0; ρ < dim; ρ++) {
-                            sum[ρ] = new Product(
-                                    inverseMetric.matrix[σ][ρ],
-                                    new Sum(metric.matrix[ν][ρ].getSimplifiedDerivative(variableStrings[μ]),
-                                            metric.matrix[ρ][μ].getSimplifiedDerivative(variableStrings[ν]),
-                                            negative(metric.matrix[μ][ν].getSimplifiedDerivative(variableStrings[ρ]))));
-                        }
-
-                        christoffelConnection[μ][σ][ν] = new Product(HALF, new Sum(sum)).simplify();
-                        System.out.println(variableStrings[μ] + " " + variableStrings[σ] + " " + variableStrings[ν] + " : " + christoffelConnection[μ][σ][ν].toString());
-                    }
-                }
-            }
-
-            this.christoffelConnection = christoffelConnection;
-        }
-
+        if (christoffelConnection == null)
+            calculateChristoffelConnection();
         return christoffelConnection;
     }
 
     public GeneralFunction[][][][] riemannTensor() {
-        if (riemannTensor == null) {
-            GeneralFunction[][][][] riemannTensor = new GeneralFunction[dim][dim][dim][dim];
-            GeneralFunction[][][] Γ = christoffelConnection();
-            for (int λ = 0; λ < dim; λ++) {
-                for (int ρ = 0; ρ < dim; ρ++) {
-                    for (int μ = 0; μ < dim; μ++) {
-                        for (int ν = 0; ν < dim; ν++) {
-
-                            GeneralFunction[] sum1 = new GeneralFunction[4];
-
-                            sum1[0] = Γ[ν][λ][ρ].getSimplifiedDerivative(variableStrings[μ]);
-
-                            sum1[1] = negative(Γ[μ][λ][ρ].getSimplifiedDerivative(variableStrings[ν]));
-
-                            GeneralFunction[] sum2 = new GeneralFunction[dim];
-                            for (int α = 0; α < dim; α++) {
-                                sum2[α] = new Product(
-                                        Γ[μ][λ][α],
-                                        Γ[ν][α][ρ]
-                                );
-                            }
-                            sum1[2] = new Sum(sum2).simplify();
-
-                            GeneralFunction[] sum3 = new GeneralFunction[dim];
-                            for (int α = 0; α < dim; α++) {
-                                sum3[α] = new Product(
-                                        Γ[ν][λ][α],
-                                        Γ[μ][α][ρ]
-                                );
-                            }
-                            sum1[3] = negative(new Sum(sum3)).simplify();
-
-                            riemannTensor[λ][ρ][μ][ν] = new Sum(sum1).simplify();
-                            System.out.println(variableStrings[λ] + " " + variableStrings[ρ] + " " + variableStrings[μ] + " " + variableStrings[ν] + " : " + riemannTensor[λ][ρ][μ][ν].toString());
-                        }
-                    }
-                }
-            }
-
-            this.riemannTensor = riemannTensor;
-        }
-
+        if (riemannTensor == null)
+            calculateRiemannTensor();
         return riemannTensor;
     }
 
     public GeneralFunction[][] ricciTensor() {
-        if (ricciTensor == null) {
-            GeneralFunction[][] ricciTensor = new GeneralFunction[dim][dim];
-            GeneralFunction[][][][] R = riemannTensor();
-            for (int ρ = 0; ρ < dim; ρ++) {
-                for (int ν = 0; ν < dim; ν++) {
-
-                    GeneralFunction[] sum = new GeneralFunction[dim];
-
-                    for (int λ = 0; λ < dim; λ++) {
-                        sum[λ] = R[λ][ρ][λ][ν];
-                    }
-
-                    ricciTensor[ρ][ν] = new Sum(sum).simplify();
-                    System.out.println(variableStrings[ρ] + " " + variableStrings[ν] + " : " + ricciTensor[ρ][ν].toString());
-
-                }
-            }
-
-            this.ricciTensor = ricciTensor;
-        }
-
+        if (ricciTensor == null)
+            calculateRicciTensor();
         return ricciTensor;
     }
 
     public GeneralFunction ricciScalar() {
-        if (ricciScalar == null) {
-            GeneralFunction[][] R = ricciTensor();
-
-            GeneralFunction[] sum1 = new GeneralFunction[dim];
-            for (int ν = 0; ν < dim; ν++) {
-                GeneralFunction[] sum2 = new GeneralFunction[dim];
-                for (int μ = 0; μ < dim; μ++) {
-                    sum2[μ] = new Product(inverseMetric.matrix[ν][μ], R[μ][ν]);
-                }
-                sum1[ν] = new Sum(sum2).simplify();
-            }
-            GeneralFunction ricciScalar = new Sum(sum1).simplify();
-
-            this.ricciScalar = ricciScalar;
-        }
-
+        if (ricciScalar == null)
+            calculateRicciScalar();
         return ricciScalar;
+    }
+
+    public GeneralFunction[][] einsteinTensor() {
+        if (einsteinTensor == null)
+            calculateEinsteinTensor();
+        return einsteinTensor;
     }
 
     public GeneralFunction ds() {
@@ -225,30 +135,129 @@ public class Space {
         return sqrt(new Sum(sum)).simplify();
     }
 
-    public GeneralFunction[][] einsteinTensor() {
-        if (einsteinTensor == null) {
-            GeneralFunction[][] G = ricciTensor();
-            GeneralFunction R = ricciScalar();
-
-            for (int μ = 0; μ < dim; μ++) {
-                for (int ν = 0; ν < dim; ν++) {
-                    G[μ][ν] = new Sum(G[μ][ν], negative(new Product(new Constant(0.5), metric.matrix[μ][ν], R))).simplify();
-                    System.out.println(variableStrings[μ] + " " + variableStrings[ν] + " : " + G[μ][ν].toString());
-                }
-            }
-
-            this.einsteinTensor = G;
-        }
-
-        return einsteinTensor;
-    }
-
-   public GeneralFunction volumeElement() {
+    public GeneralFunction volumeElement() {
         if (metric.isDiagonal)
             return sqrt(determinantDiagonalMatrix(metric.matrix)).simplify();
         else
             return sqrt(determinant(metric.matrix)).simplify();
-   }
+    }
+
+    private void calculateChristoffelConnection() {
+        GeneralFunction[][][] christoffelConnection = new GeneralFunction[dim][dim][dim];
+        for (int μ = 0; μ < dim; μ++) {
+            for (int σ = 0; σ < dim; σ++) {
+                for (int ν = 0; ν < dim; ν++) {
+
+                    GeneralFunction[] sum = new GeneralFunction[dim];
+
+                    for (int ρ = 0; ρ < dim; ρ++) {
+                        sum[ρ] = new Product(
+                                inverseMetric.matrix[σ][ρ],
+                                new Sum(metric.matrix[ν][ρ].getSimplifiedDerivative(variableStrings[μ]),
+                                        metric.matrix[ρ][μ].getSimplifiedDerivative(variableStrings[ν]),
+                                        negative(metric.matrix[μ][ν].getSimplifiedDerivative(variableStrings[ρ]))));
+                    }
+
+                    christoffelConnection[μ][σ][ν] = new Product(HALF, new Sum(sum)).simplify();
+                    System.out.println(variableStrings[μ] + " " + variableStrings[σ] + " " + variableStrings[ν] + " : " + christoffelConnection[μ][σ][ν].toString());
+                }
+            }
+        }
+        this.christoffelConnection = christoffelConnection;
+    }
+
+    private void calculateRiemannTensor() {
+        GeneralFunction[][][][] riemannTensor = new GeneralFunction[dim][dim][dim][dim];
+        GeneralFunction[][][] Γ = christoffelConnection();
+        for (int λ = 0; λ < dim; λ++) {
+            for (int ρ = 0; ρ < dim; ρ++) {
+                for (int μ = 0; μ < dim; μ++) {
+                    for (int ν = 0; ν < dim; ν++) {
+
+                        GeneralFunction[] sum1 = new GeneralFunction[4];
+
+                        sum1[0] = Γ[ν][λ][ρ].getSimplifiedDerivative(variableStrings[μ]);
+
+                        sum1[1] = negative(Γ[μ][λ][ρ].getSimplifiedDerivative(variableStrings[ν]));
+
+                        GeneralFunction[] sum2 = new GeneralFunction[dim];
+                        for (int α = 0; α < dim; α++) {
+                            sum2[α] = new Product(
+                                    Γ[μ][λ][α],
+                                    Γ[ν][α][ρ]
+                            );
+                        }
+                        sum1[2] = new Sum(sum2).simplify();
+
+                        GeneralFunction[] sum3 = new GeneralFunction[dim];
+                        for (int α = 0; α < dim; α++) {
+                            sum3[α] = new Product(
+                                    Γ[ν][λ][α],
+                                    Γ[μ][α][ρ]
+                            );
+                        }
+                        sum1[3] = negative(new Sum(sum3)).simplify();
+
+                        riemannTensor[λ][ρ][μ][ν] = new Sum(sum1).simplify();
+                        System.out.println(variableStrings[λ] + " " + variableStrings[ρ] + " " + variableStrings[μ] + " " + variableStrings[ν] + " : " + riemannTensor[λ][ρ][μ][ν].toString());
+                    }
+                }
+            }
+        }
+
+        this.riemannTensor = riemannTensor;
+
+    }
+
+    private void calculateRicciTensor() {
+        GeneralFunction[][] ricciTensor = new GeneralFunction[dim][dim];
+        GeneralFunction[][][][] R = riemannTensor();
+        for (int ρ = 0; ρ < dim; ρ++) {
+            for (int ν = 0; ν < dim; ν++) {
+
+                GeneralFunction[] sum = new GeneralFunction[dim];
+
+                for (int λ = 0; λ < dim; λ++) {
+                    sum[λ] = R[λ][ρ][λ][ν];
+                }
+
+                ricciTensor[ρ][ν] = new Sum(sum).simplify();
+                System.out.println(variableStrings[ρ] + " " + variableStrings[ν] + " : " + ricciTensor[ρ][ν].toString());
+
+            }
+        }
+
+        this.ricciTensor = ricciTensor;
+    }
+
+    private void calculateRicciScalar() {
+        GeneralFunction[][] R = ricciTensor();
+
+        GeneralFunction[] sum1 = new GeneralFunction[dim];
+        for (int ν = 0; ν < dim; ν++) {
+            GeneralFunction[] sum2 = new GeneralFunction[dim];
+            for (int μ = 0; μ < dim; μ++) {
+                sum2[μ] = new Product(inverseMetric.matrix[ν][μ], R[μ][ν]);
+            }
+            sum1[ν] = new Sum(sum2).simplify();
+        }
+        this.ricciScalar = new Sum(sum1).simplify();
+    }
+
+
+    private void calculateEinsteinTensor() {
+        GeneralFunction[][] G = ricciTensor();
+        GeneralFunction R = ricciScalar();
+
+        for (int μ = 0; μ < dim; μ++) {
+            for (int ν = 0; ν < dim; ν++) {
+                G[μ][ν] = new Sum(G[μ][ν], negative(new Product(new Constant(0.5), metric.matrix[μ][ν], R))).simplify();
+                System.out.println(variableStrings[μ] + " " +variableStrings[ν] + " : " + G[μ][ν].toString());
+            }
+        }
+
+        this.einsteinTensor = G;
+    }
 
 
 }
