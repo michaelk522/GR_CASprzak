@@ -92,6 +92,12 @@ public class LinearAlgebraTools {
     }
 
     public static boolean isDiagonal(GeneralFunction[][] input) {
+        if (!isSquare(input))
+            throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
+        if(input.length == 0)
+            throw new IllegalArgumentException("Can not have an array of length 0.");
+
+
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input.length; j++) {
                 if (i != j && !input[i][j].equals(ZERO))
@@ -102,6 +108,11 @@ public class LinearAlgebraTools {
     }
 
     public static boolean isSymmetric(GeneralFunction[][] input) {
+        if (!isSquare(input))
+            throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
+        if(input.length == 0)
+            throw new IllegalArgumentException("Can not have an array of length 0.");
+
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < i; j++) {
                 if (!input[i][j].equals(input[j][i]))
