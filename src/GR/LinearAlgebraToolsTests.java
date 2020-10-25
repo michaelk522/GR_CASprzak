@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static tools.DefaultFunctions.*;
 
 
-public class GRTest {
+public class LinearAlgebraToolsTests {
 
     @Test
     void isSquareTrue() {
@@ -227,6 +227,26 @@ public class GRTest {
         };
 
         assertFalse(isSymmetric(test));
+    }
+
+    @Test
+    void inverseOfADiagonalMatrix() {
+        GeneralFunction[][] test1 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ZERO, ZERO, ZERO},
+                new GeneralFunction[]{ZERO, X, ZERO, ZERO},
+                new GeneralFunction[]{ZERO, ZERO, X, ZERO},
+                new GeneralFunction[]{ZERO, ZERO, ZERO, X}
+        };
+
+        GeneralFunction[][] test2 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ZERO, ZERO, ZERO},
+                new GeneralFunction[]{ZERO, reciprocal(X), ZERO, ZERO},
+                new GeneralFunction[]{ZERO, ZERO, reciprocal(X), ZERO},
+                new GeneralFunction[]{ZERO, ZERO, ZERO, reciprocal(X)}
+        };
+
+
+        assertArrayEquals(test2, inverseDiagonalMatrix(test1));
     }
 
 
