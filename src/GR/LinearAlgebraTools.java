@@ -19,9 +19,20 @@ public class LinearAlgebraTools {
         GeneralFunction[][] finalMatrix = new GeneralFunction[input.length-1][input.length-1];
 
 
+        for (int k = 0; k < finalMatrix.length; k++) {
+            for (int l = 0; l < finalMatrix.length; l++) {
+                if (k < i && l < j)
+                    finalMatrix[k][l] = input[k][l];
+                else if (k < i && l >= j)
+                    finalMatrix[k][l] = input[k][l+1];
+                else if (k >= i && l < j)
+                    finalMatrix[k][l] = input[k+1][l];
+                else
+                    finalMatrix[k][l] = input[k+1][l+1];
+            }
+        }
 
-
-        return null;
+        return finalMatrix;
     }
 
     public static boolean isSquare(GeneralFunction[][] input) {
