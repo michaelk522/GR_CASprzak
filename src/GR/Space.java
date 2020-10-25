@@ -6,8 +6,6 @@ import functions.commutative.Sum;
 import functions.endpoint.Constant;
 import functions.endpoint.Variable;
 import functions.unitary.transforms.Differential;
-import tools.DefaultFunctions;
-import tools.exceptions.NotYetImplementedException;
 
 import java.util.Arrays;
 
@@ -61,8 +59,8 @@ public class Space {
             inverseMetricMatrix[i][i] = reciprocal(x[i]).simplify();
         }
 
-        metric = new Metric(this, metricMatrix, true);
-        inverseMetric = new InverseMetric(this, inverseMetricMatrix, true);
+        metric = new Metric(metricMatrix, true);
+        inverseMetric = new InverseMetric(inverseMetricMatrix, true);
     }
 
     public void defMetric(GeneralFunction[][] x) {
@@ -73,12 +71,14 @@ public class Space {
         if (!isSymmetric(x))
             throw new IllegalArgumentException("The matrix provided is not symmetric: " + Arrays.deepToString(x));
 
-        metric = new Metric(this, x);
 
-        if (isDiagonal(x))
-            inverseMetric = new InverseMetric(this, inverseDiagonalMatrix(x), true);
-        else
-            inverseMetric = new InverseMetric(this, inverse(x), false);
+        if (isDiagonal(x)) {
+            metric = new Metric(x, true);
+            inverseMetric = new InverseMetric(inverseDiagonalMatrix(x), true);
+        } else {
+            metric = new Metric(x, false);
+            inverseMetric = new InverseMetric(inverse(x), false);
+        }
 
     }
 
@@ -214,7 +214,10 @@ public class Space {
     }
 
    public GeneralFunction volumeElement() {
-        return sqrt(determinant(metric.matrix)).simplify();
+        if (metric.isDiagonal)
+            return sqrt(determinantDiagonalMatrix(metric.matrix)).simplify();
+        else
+            return sqrt(determinant(metric.matrix)).simplify();
    }
 
 
