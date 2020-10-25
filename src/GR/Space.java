@@ -78,6 +78,11 @@ public class Space {
         if (!isSymmetric(x))
             throw new IllegalArgumentException("The matrix provided is not symmetric: " + Arrays.deepToString(x));
 
+        for (int i = 0; i < x.length; i++) {
+            for (int j = 0; j < x.length; j++) {
+                x[i][j] = x[i][j].simplify();
+            }
+        }
 
         if (isDiagonal(x)) {
             metric = new Metric(x, true);
