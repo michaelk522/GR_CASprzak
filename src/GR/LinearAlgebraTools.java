@@ -153,4 +153,15 @@ public class LinearAlgebraTools {
         return new Product(terms).simplify();
     }
 
+    public static boolean isZero(GeneralFunction[][] input) {
+        for (GeneralFunction[] array : input) {
+            for (GeneralFunction function : array) {
+                if (function.equals(ZERO))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
 }
