@@ -1,8 +1,11 @@
 package GR;
 import functions.GeneralFunction;
 import functions.binary.Pow;
+import functions.endpoint.Constant;
 import org.junit.jupiter.api.Test;
 import parsing.FunctionParser;
+
+import java.util.Arrays;
 
 import static GR.LinearAlgebraTools.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -112,6 +115,33 @@ public class GRTest {
         GeneralFunction test2 = FunctionParser.parseSimplified("-(e^(2x))-(e^x)*(x^2)+4x^2-2e^x");
 
         assertEquals(test2, determinant(test1));
+    }
+
+    @Test
+    void simpleInverse() {
+        GeneralFunction[][] test1 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE}
+        };
+
+        assertArrayEquals(test1, inverse(test1));
+    }
+
+    @Test
+    void simpleInverse2x2() {
+        GeneralFunction[][] test1 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, TWO},
+                new GeneralFunction[]{HALF, HALF},
+        };
+
+        GeneralFunction[][] test2 = new GeneralFunction[][]{
+                new GeneralFunction[]{NEGATIVE_ONE, new Constant(4)},
+                new GeneralFunction[]{ONE, new Constant(-2)},
+        };
+
+
+        System.out.println(Arrays.deepToString(inverse(test1)));
+
+        assertArrayEquals(test2, inverse(test1));
     }
 
 

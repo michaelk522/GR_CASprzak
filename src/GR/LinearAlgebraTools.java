@@ -84,7 +84,7 @@ public class LinearAlgebraTools {
         GeneralFunction[][] cofactorMatrix = new GeneralFunction[input.length][input.length];
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input.length; j++) {
-                cofactorMatrix[i][j] = determinant(cofactorMatrix(input, i, j)).simplify();
+                cofactorMatrix[i][j] = determinant(cofactorMatrix(input, i, j)).simplify();//The sign is added in the next for-loop
             }
         }
 
@@ -93,7 +93,7 @@ public class LinearAlgebraTools {
 
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input.length; j++) {
-                inverseMatrix[i][j] = new Product(reciprocal(determinant), cofactorMatrix[j][i]);
+                inverseMatrix[i][j] = new Product(reciprocal(determinant), cofactorMatrix[j][i], ((i+j)%2 ==0 ? ONE : NEGATIVE_ONE)).simplify();
             }
         }
 
