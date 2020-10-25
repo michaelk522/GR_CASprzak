@@ -7,7 +7,6 @@ import functions.endpoint.Constant;
 import org.junit.jupiter.api.Test;
 import parsing.FunctionParser;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import static GR.LinearAlgebraTools.*;
