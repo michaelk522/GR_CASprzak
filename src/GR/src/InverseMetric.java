@@ -1,5 +1,6 @@
-package GR;
+package GR.src;
 
+import GR.GR;
 import functions.GeneralFunction;
 
 public class InverseMetric{

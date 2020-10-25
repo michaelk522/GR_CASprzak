@@ -1,5 +1,6 @@
 package GR;
 
+import GR.src.Space;
 import functions.GeneralFunction;
 import functions.commutative.Product;
 import functions.endpoint.Variable;

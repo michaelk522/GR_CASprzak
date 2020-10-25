@@ -1,4 +1,4 @@
-package GR;
+package GR.src;
 
 import functions.GeneralFunction;
 import functions.commutative.Product;
@@ -9,7 +9,7 @@ import functions.unitary.transforms.Differential;
 
 import java.util.Arrays;
 
-import static GR.LinearAlgebraTools.*;
+import static GR.src.LinearAlgebraTools.*;
 import static tools.DefaultFunctions.*;
 
 

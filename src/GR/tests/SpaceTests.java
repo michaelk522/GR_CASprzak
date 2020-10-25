@@ -1,4 +1,4 @@
-package GR;
+package GR.tests;
 
 import functions.GeneralFunction;
 import functions.commutative.Product;
@@ -8,7 +8,7 @@ import functions.unitary.trig.normal.Sin;
 import org.junit.jupiter.api.Test;
 
 import static GR.DefaultSpaces.*;
-import static GR.LinearAlgebraTools.*;
+import static GR.src.LinearAlgebraTools.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static tools.DefaultFunctions.*;
 
