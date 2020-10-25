@@ -93,7 +93,7 @@ public class LinearAlgebraTools {
 
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input.length; j++) {
-                inverseMatrix[i][j] = new Product(reciprocal(determinant), cofactorMatrix[j][i], ((i+j)%2 ==0 ? ONE : NEGATIVE_ONE)).simplify();
+                inverseMatrix[i][j] = new Product(reciprocal(determinant).simplify(), cofactorMatrix[j][i], ((i+j)%2 ==0 ? ONE : NEGATIVE_ONE)).simplify();
             }
         }
 

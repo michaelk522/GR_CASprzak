@@ -1,11 +1,14 @@
 package GR;
 import functions.GeneralFunction;
 import functions.binary.Pow;
+import functions.commutative.Product;
+import functions.commutative.Sum;
 import functions.endpoint.Constant;
 import org.junit.jupiter.api.Test;
 import parsing.FunctionParser;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import static GR.LinearAlgebraTools.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -138,10 +141,44 @@ public class GRTest {
                 new GeneralFunction[]{ONE, new Constant(-2)},
         };
 
+        assertArrayEquals(test2, inverse(test1));
+    }
 
-        System.out.println(Arrays.deepToString(inverse(test1)));
+    @Test
+    void simpleInverse3x3() {
+        GeneralFunction[][] test1 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ZERO, ZERO},
+                new GeneralFunction[]{ZERO, X, ZERO},
+                new GeneralFunction[]{ZERO, ZERO, new Pow(TWO, X)}
+        };
+
+        GeneralFunction[][] test2 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ZERO, ZERO},
+                new GeneralFunction[]{ZERO, new Pow(NEGATIVE_ONE, X), ZERO},
+                new GeneralFunction[]{ZERO, ZERO, new Pow(NEGATIVE_TWO, X)}
+        };
 
         assertArrayEquals(test2, inverse(test1));
+    }
+
+    @Test
+    void inverseSymmetric4x4() {
+        GeneralFunction[][] test1 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ZERO, ZERO, ZERO},
+                new GeneralFunction[]{ZERO, X, ZERO, ZERO},
+                new GeneralFunction[]{ZERO, ZERO, X, new Sum(X, ONE)},
+                new GeneralFunction[]{ZERO, ZERO, new Sum(X, ONE), X}
+        };
+
+        GeneralFunction[][] test2 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ZERO, ZERO, ZERO},
+                new GeneralFunction[]{ZERO, new Pow(NEGATIVE_ONE, X), ZERO, ZERO},
+                new GeneralFunction[]{ZERO, ZERO, negative(frac(X, new Sum(new Product(TWO, X), ONE))).simplify(), frac(new Sum(X, ONE), new Sum(new Product(TWO, X), ONE)).simplify()},
+                new GeneralFunction[]{ZERO, ZERO, frac(new Sum(X, ONE), new Sum(new Product(TWO, X), ONE)).simplify(), negative(frac(X, new Sum(new Product(TWO, X), ONE))).simplify()}
+        };
+
+
+        assertEquals(test2[3][3].evaluate(Map.of("x", 10.0)), inverse(test1)[3][3].evaluate(Map.of("x", 10.0)), 0.001);
     }
 
 
