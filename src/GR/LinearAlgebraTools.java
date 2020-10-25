@@ -53,7 +53,7 @@ public class LinearAlgebraTools {
             throw new IllegalArgumentException("Can not have an array of length 0.");
 
         if (input.length == 1)
-            return input[0][0];
+            return input[0][0].simplify();
         if (input.length == 2)
             return new Sum(new Product(input[0][0], input[1][1]), negative(new Product(input[0][1], input[1][0]))).simplify();
 
