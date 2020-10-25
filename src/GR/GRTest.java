@@ -180,5 +180,34 @@ public class GRTest {
         assertEquals(test2[3][3].evaluate(Map.of("x", 10.0)), inverse(test1)[3][3].evaluate(Map.of("x", 10.0)), 0.001);
     }
 
+    @Test
+    void isDiagonalTrue() {
+        GeneralFunction[][] test = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ZERO},
+                new GeneralFunction[]{ZERO, TEN}
+        };
+
+        assertTrue(isDiagonal(test));
+    }
+
+    @Test
+    void isDiagonalFalse() {
+        GeneralFunction[][] test = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ZERO},
+                new GeneralFunction[]{TWO, TEN}
+        };
+
+        assertFalse(isDiagonal(test));
+    }
+
+    @Test
+    void isDiagonal1x1() {
+        GeneralFunction[][] test = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE}
+        };
+
+        assertTrue(isDiagonal(test));
+    }
+
 
 }
