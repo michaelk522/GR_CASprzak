@@ -61,8 +61,8 @@ public class Space {
             inverseMetricMatrix[i][i] = reciprocal(x[i]).simplify();
         }
 
-        metric = new Metric(this, metricMatrix);
-        inverseMetric = new InverseMetric(this, inverseMetricMatrix);
+        metric = new Metric(this, metricMatrix, true);
+        inverseMetric = new InverseMetric(this, inverseMetricMatrix, true);
     }
 
     public void defMetric(GeneralFunction[][] x) {
@@ -76,9 +76,9 @@ public class Space {
         metric = new Metric(this, x);
 
         if (isDiagonal(x))
-            inverseMetric = new InverseMetric(this, inverseDiagonalMatrix(x));
+            inverseMetric = new InverseMetric(this, inverseDiagonalMatrix(x), true);
         else
-            inverseMetric = new InverseMetric(this, inverse(x));
+            inverseMetric = new InverseMetric(this, inverse(x), false);
 
     }
 
