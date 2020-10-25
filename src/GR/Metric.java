@@ -2,18 +2,16 @@ package GR;
 
 import functions.GeneralFunction;
 
-public class Metric extends Tensor {
+public class Metric{
     public GeneralFunction[][] matrix;
     public boolean isDiagonal;
 
-    public Metric(Space space, GeneralFunction[][] metric) {
-        super(space, 0, 2);
+    public Metric(GeneralFunction[][] metric) {
         this.matrix = metric;
         isDiagonal = false;
     }
 
-    public Metric(Space space, GeneralFunction[][] metric, boolean isDiagonal) {
-        super(space, 0, 2);
+    public Metric(GeneralFunction[][] metric, boolean isDiagonal) {
         this.matrix = metric;
         this.isDiagonal = isDiagonal;
     }
