@@ -3,7 +3,6 @@ package GR;
 import functions.GeneralFunction;
 import functions.commutative.Product;
 import functions.commutative.Sum;
-import functions.endpoint.Variable;
 import functions.unitary.transforms.Differential;
 import functions.unitary.trig.normal.Sin;
 import org.junit.jupiter.api.Test;
@@ -65,10 +64,14 @@ public class SpaceTests {
         GeneralFunction[][][][] test1 = spherical.riemannTensor();
         GeneralFunction[][] test2 = spherical.ricciTensor();
         GeneralFunction test3 = spherical.ricciScalar();
+        GeneralFunction[][] test4 = spherical.einsteinTensor();
+
 
         assertTrue(isZero(test1));
         assertTrue(isZero(test2));
         assertTrue(isZero(test3));
+        assertTrue(isZero(test4));
+
     }
 
     @Test
