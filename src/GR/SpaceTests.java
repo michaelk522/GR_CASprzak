@@ -1,8 +1,11 @@
 package GR;
 
 import functions.GeneralFunction;
+import functions.commutative.Product;
 import functions.commutative.Sum;
+import functions.endpoint.Variable;
 import functions.unitary.transforms.Differential;
+import functions.unitary.trig.normal.Sin;
 import org.junit.jupiter.api.Test;
 
 import static GR.DefaultSpaces.*;
@@ -16,6 +19,23 @@ public class SpaceTests {
     void dsOfCartesianSpace() {
         GeneralFunction test1 = sqrt(new Sum(square(new Differential("x")), square(new Differential("y"))));
         assertEquals(test1, cartesian2d.ds());
+    }
+
+    @Test
+    void dsOfPolarCoords() {
+        GeneralFunction test1 = sqrt(new Sum(square(new Differential("r")), square(new Product(new Differential("θ"), r))));
+        assertEquals(test1, polar.ds());
+    }
+
+    @Test
+    void volumeElementOfPolarCoords() {
+        assertEquals(r, polar.volumeElement());
+    }
+
+    @Test
+    void volumeElementOfSphericalCoords() {
+        GeneralFunction test1 = new Product(square(r), new Sin(θ));
+        assertEquals(test1, spherical.volumeElement());
     }
 
     @Test
@@ -105,5 +125,7 @@ public class SpaceTests {
         assertFalse(isZero(test2));
         assertFalse(isZero(test3));
     }
+
+
 
 }
