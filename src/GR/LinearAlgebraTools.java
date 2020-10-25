@@ -154,13 +154,13 @@ public class LinearAlgebraTools {
     }
 
     public static boolean isZero(GeneralFunction input) {
-        return !input.equals(ZERO);
+        return input.equals(ZERO);
     }
 
     public static boolean isZero(GeneralFunction[][] input) {
         for (GeneralFunction[] array : input) {
             for (GeneralFunction function : array) {
-                if (function.equals(ZERO))
+                if (!function.equals(ZERO))
                     return false;
             }
         }
@@ -172,7 +172,7 @@ public class LinearAlgebraTools {
         for (GeneralFunction[][] array1 : input) {
             for (GeneralFunction[] array2 : array1) {
                 for (GeneralFunction function : array2) {
-                    if (function.equals(ZERO))
+                    if (!function.equals(ZERO))
                         return false;
                 }
             }
@@ -186,7 +186,7 @@ public class LinearAlgebraTools {
             for (GeneralFunction[][] array2 : array1) {
                 for (GeneralFunction[] array3 : array2) {
                     for (GeneralFunction function : array3) {
-                        if (function.equals(ZERO))
+                        if (!function.equals(ZERO))
                             return false;
                     }
                 }
