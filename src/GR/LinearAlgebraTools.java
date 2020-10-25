@@ -21,14 +21,7 @@ public class LinearAlgebraTools {
 
         for (int k = 0; k < finalMatrix.length; k++) {
             for (int l = 0; l < finalMatrix.length; l++) {
-                if (k < i && l < j)
-                    finalMatrix[k][l] = input[k][l];
-                else if (k < i && l >= j)
-                    finalMatrix[k][l] = input[k][l+1];
-                else if (k >= i && l < j)
-                    finalMatrix[k][l] = input[k+1][l];
-                else
-                    finalMatrix[k][l] = input[k+1][l+1];
+                finalMatrix[k][l] = input[k < i ? k : k+1][l < j ? l : l+1];
             }
         }
 
