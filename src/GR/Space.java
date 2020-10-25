@@ -11,6 +11,7 @@ import tools.exceptions.NotYetImplementedException;
 
 import java.util.Arrays;
 
+import static GR.LinearAlgebraTools.*;
 import static tools.DefaultFunctions.*;
 
 
@@ -65,7 +66,20 @@ public class Space {
     }
 
     public void defMetric(GeneralFunction[][] x) {
-        throw new NotYetImplementedException("We dont invert matrices yet.");
+        if (!isSquare(x))
+            throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(x));
+        if(x.length == 0)
+            throw new IllegalArgumentException("Can not have an metric of size 0.");
+        if (!isSymmetric(x))
+            throw new IllegalArgumentException("The matrix provided is not symmetric: " + Arrays.deepToString(x));
+
+        metric = new Metric(this, x);
+
+        if (isDiagonal(x))
+            inverseMetric = new InverseMetric(this, inverseDiagonalMatrix(x));
+        else
+            inverseMetric = new InverseMetric(this, inverse(x));
+
     }
 
     public GeneralFunction[][][] christoffelConnection() {
