@@ -129,6 +129,16 @@ public class SpaceTests {
         assertFalse(isZero(test3));
     }
 
+    @Test
+    void explicitPolarChristoffelConnection() {
+        GeneralFunction[][][] F = polar.christoffelConnection();
+
+        assertEquals(F[1][0][1], negative(r));
+        assertEquals(F[1][1][0], F[0][1][1]);
+        assertEquals(F[1][1][0], reciprocal(r));
+
+    }
+
 
 
 }
