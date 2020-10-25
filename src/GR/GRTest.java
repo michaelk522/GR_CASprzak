@@ -1,5 +1,8 @@
 package GR;
 import functions.GeneralFunction;
+import functions.binary.Pow;
+import functions.commutative.Sum;
+import functions.unitary.specialcases.Exp;
 import org.junit.jupiter.api.Test;
 import parsing.FunctionParser;
 import tools.singlevariable.Extrema;
@@ -71,6 +74,50 @@ public class GRTest {
         assertArrayEquals(test2, subMatrix(test1, 3, 2));
     }
 
+    @Test
+    void simpleDeterminant1() {
+        GeneralFunction[][] test1 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, TWO},
+                new GeneralFunction[]{HALF, ONE},
+        };
+
+        assertEquals(ZERO, determinant(test1));
+    }
+
+    @Test
+    void simpleDeterminant2() {
+        GeneralFunction[][] test1 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE}
+        };
+
+        assertEquals(ONE, determinant(test1));
+    }
+
+    @Test
+    void simpleButLongDeterminant() {
+        GeneralFunction[][] test1 = new GeneralFunction[][]{
+                new GeneralFunction[]{ONE, ONE, ONE, ONE, ONE},
+                new GeneralFunction[]{ONE, ONE, ONE, ONE, ONE},
+                new GeneralFunction[]{ONE, ONE, ONE, ONE, ONE},
+                new GeneralFunction[]{ONE, ONE, ONE, ONE, ONE},
+                new GeneralFunction[]{ONE, ONE, ONE, ONE, ONE},
+        };
+
+        assertEquals(ZERO, determinant(test1));
+    }
+
+    @Test
+    void ComplexDeterminant() {
+        GeneralFunction[][] test1 = new GeneralFunction[][]{
+                new GeneralFunction[]{new Pow(X, E), X, TWO},
+                new GeneralFunction[]{X, new Pow(X, E), X},
+                new GeneralFunction[]{ONE, X, NEGATIVE_ONE}
+        };
+
+        GeneralFunction test2 = FunctionParser.parseSimplified("-(e^(2x))-(e^x)*(x^2)+4x^2-2e^x");
+
+        assertEquals(test2, determinant(test1));
+    }
 
 
 }
