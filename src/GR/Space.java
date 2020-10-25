@@ -22,11 +22,11 @@ public class Space {
     public Metric metric;
     public InverseMetric inverseMetric;
 
-    private GeneralFunction[][][] christoffelConnection;
-    private GeneralFunction[][][][] riemannTensor;
-    private GeneralFunction[][] ricciTensor;
-    private GeneralFunction ricciScalar;
-    private GeneralFunction[][] einsteinTensor;
+    private GeneralFunction[][][] christoffelConnection = null;
+    private GeneralFunction[][][][] riemannTensor = null;
+    private GeneralFunction[][] ricciTensor = null;
+    private GeneralFunction ricciScalar = null;
+    private GeneralFunction[][] einsteinTensor = null;
 
 
     public Space(String... variableNames) {
