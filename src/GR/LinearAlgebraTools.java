@@ -131,4 +131,16 @@ public class LinearAlgebraTools {
         return true;
     }
 
+    public static GeneralFunction[][] inverseDiagonalMatrix(GeneralFunction[][] input) {
+        GeneralFunction[][] inverse = Arrays.stream(input)
+                .map(GeneralFunction[]::clone)
+                .toArray(GeneralFunction[][]::new);
+
+        for (int i = 0; i < input.length; i++) {
+            inverse[i][i] = reciprocal(input[i][i]).simplify();
+        }
+        
+        return inverse;
+    }
+
 }
