@@ -36,15 +36,6 @@ public class LinearAlgebraTools {
         return cofactorMatrix(input, 0, j);
     }
 
-    public static boolean isSquare(GeneralFunction[][] input) {
-        int length = input.length;
-        for (GeneralFunction[] array: input) {
-            if (array.length != length)
-                return false;
-        }
-        return true;
-    }
-
     public static GeneralFunction determinant(GeneralFunction[][] input) {
         if (!isSquare(input))
             throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
@@ -98,6 +89,35 @@ public class LinearAlgebraTools {
         }
 
         return inverseMatrix;
+    }
+
+    public static boolean isDiagonal(GeneralFunction[][] input) {
+        for (int i = 0; i < input.length; i++) {
+            for (int j = 0; j < input.length; j++) {
+                if (i != j && !input[i][j].equals(ZERO))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSymmetric(GeneralFunction[][] input) {
+        for (int i = 0; i < input.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (!input[i][j].equals(input[j][i]))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSquare(GeneralFunction[][] input) {
+        int length = input.length;
+        for (GeneralFunction[] array: input) {
+            if (array.length != length)
+                return false;
+        }
+        return true;
     }
 
 }
