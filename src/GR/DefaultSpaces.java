@@ -16,10 +16,10 @@ public class DefaultSpaces {
     public static final Variable y = new Variable("y");
     public static final Variable z = new Variable("z");
     public static final Variable r = new Variable("r");
-    public static final Variable r_s = new Variable("\r_s");
     public static final Variable θ = new Variable("θ");
     public static final Variable φ = new Variable("φ");
     public static final Variable ψ = new Variable("ψ");
+    public static final Variable r_s = new Variable("\\r_s");
 
 
 

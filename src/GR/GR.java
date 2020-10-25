@@ -63,15 +63,17 @@ public class GR {
 
         GeneralFunction f = schwarzschildInSchwarzschildCoordinates.ricciScalar();
 
-        for (int i = 1; i < 5; i++) {
-            for (int j = 1; j < 5; j++) {
-                for (int k = 1; k < 5; k++) {
-                    for (int l = 1; l < 5; l++) {
-                        System.out.println(f.evaluate(Map.of("t", (double)i, "r", (double)j, "θ", (double)k, "φ", (double)l, "n", 1.0)));
-                    }
-                }
-            }
-        }
+
+
+        Variable R_1 = new Variable("\\R_1");
+        Variable R_2 = new Variable("\\R_2");
+        Space torusIn4D = new Space("u", "v");
+        torusIn4D.defMetric(
+                square(R_1),
+                square(R_2)
+        );
+
+        System.out.println(Arrays.deepToString(torusIn4D.ricciTensor()));
 
     }
 
