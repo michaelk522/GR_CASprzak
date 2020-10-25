@@ -213,7 +213,9 @@ public class Space {
         return G;
     }
 
-    //TODO Add volume elements
+   public GeneralFunction volumeElement() {
+        return sqrt(determinant(metric.matrix)).simplify();
+   }
 
 
 }
