@@ -1,13 +1,8 @@
 package GR;
 import functions.GeneralFunction;
 import functions.binary.Pow;
-import functions.commutative.Sum;
-import functions.unitary.specialcases.Exp;
 import org.junit.jupiter.api.Test;
 import parsing.FunctionParser;
-import tools.singlevariable.Extrema;
-
-import java.util.Arrays;
 
 import static GR.LinearAlgebraTools.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,7 +43,7 @@ public class GRTest {
                 new GeneralFunction[]{HALF}
         };
 
-        assertArrayEquals(test2, subMatrix(test1, 0, 1));
+        assertArrayEquals(test2, cofactorMatrix(test1, 0, 1));
     }
 
 
@@ -71,7 +66,7 @@ public class GRTest {
                 new GeneralFunction[]{ONE, ONE, ONE, ONE, ONE},
         };
 
-        assertArrayEquals(test2, subMatrix(test1, 3, 2));
+        assertArrayEquals(test2, cofactorMatrix(test1, 3, 2));
     }
 
     @Test

@@ -3,7 +3,6 @@ package GR;
 import functions.GeneralFunction;
 import functions.commutative.Product;
 import functions.commutative.Sum;
-import tools.DefaultFunctions;
 
 import java.util.Arrays;
 
@@ -11,7 +10,7 @@ import static tools.DefaultFunctions.*;
 
 public class LinearAlgebraTools {
 
-    public static GeneralFunction[][] subMatrix(GeneralFunction[][] input, int i, int j) {
+    public static GeneralFunction[][] cofactorMatrix(GeneralFunction[][] input, int i, int j) {
         if (!isSquare(input))
             throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
         if (i < 0 || i >= input.length)
@@ -33,8 +32,8 @@ public class LinearAlgebraTools {
         return finalMatrix;
     }
 
-    public static GeneralFunction[][] subMatrix(GeneralFunction[][] input, int j) {
-        return subMatrix(input, 0, j);
+    public static GeneralFunction[][] cofactorMatrix(GeneralFunction[][] input, int j) {
+        return cofactorMatrix(input, 0, j);
     }
 
     public static boolean isSquare(GeneralFunction[][] input) {
@@ -60,7 +59,7 @@ public class LinearAlgebraTools {
         GeneralFunction[] terms = new GeneralFunction[input.length];
 
         for (int i = 0; i < terms.length; i++) {
-            terms[i] = new Product(input[0][i], determinant(subMatrix(input, i)), (i%2 == 0 ? ONE : NEGATIVE_ONE)).simplify();
+            terms[i] = new Product(input[0][i], determinant(cofactorMatrix(input, i)), (i%2 == 0 ? ONE : NEGATIVE_ONE)).simplify();
         }
 
         return new Sum(terms).simplify();
