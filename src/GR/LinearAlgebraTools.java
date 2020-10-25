@@ -164,4 +164,32 @@ public class LinearAlgebraTools {
         return true;
     }
 
+    public static boolean isZero(GeneralFunction[][][] input) {
+        for (GeneralFunction[][] array1 : input) {
+            for (GeneralFunction[] array2 : array1) {
+                for (GeneralFunction function : array2) {
+                    if (function.equals(ZERO))
+                        return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean isZero(GeneralFunction[][][][] input) {
+        for (GeneralFunction[][][] array1 : input) {
+            for (GeneralFunction[][] array2 : array1) {
+                for (GeneralFunction[] array3 : array2) {
+                    for (GeneralFunction function : array3) {
+                        if (function.equals(ZERO))
+                            return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
 }
