@@ -65,4 +65,39 @@ public class LinearAlgebraTools {
         return new Sum(terms).simplify();
     }
 
+    public static GeneralFunction[][] inverse(GeneralFunction[][] input) {
+        if (!isSquare(input))
+            throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
+        if(input.length == 0)
+            throw new IllegalArgumentException("Can not have an array of length 0.");
+
+        if (input.length == 1)
+            return new GeneralFunction[][]{
+                    new GeneralFunction[]{reciprocal(input[0][0]).simplify()}
+                    };
+
+        GeneralFunction determinant = determinant(input);
+        if (determinant.equals(ZERO))
+            System.out.println("Determinant of the matrix provide was zero. Iffy stuff might have occurred.");
+
+
+        GeneralFunction[][] cofactorMatrix = new GeneralFunction[input.length][input.length];
+        for (int i = 0; i < input.length; i++) {
+            for (int j = 0; j < input.length; j++) {
+                cofactorMatrix[i][j] = determinant(cofactorMatrix(input, i, j)).simplify();
+            }
+        }
+
+
+        GeneralFunction[][] inverseMatrix = new GeneralFunction[input.length][input.length];
+
+        for (int i = 0; i < input.length; i++) {
+            for (int j = 0; j < input.length; j++) {
+                inverseMatrix[i][j] = new Product(reciprocal(determinant), cofactorMatrix[j][i]);
+            }
+        }
+
+        return inverseMatrix;
+    }
+
 }
