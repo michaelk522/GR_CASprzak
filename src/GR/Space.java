@@ -51,13 +51,13 @@ public class Space {
         GeneralFunction[][] inverseMetricMatrix = new GeneralFunction[dim][dim];
 
         for (GeneralFunction[] row : metricMatrix)
-            Arrays.fill(row, new Constant(0));
+            Arrays.fill(row, ZERO);
         for (GeneralFunction[] row : inverseMetricMatrix)
-            Arrays.fill(row, new Constant(0));
+            Arrays.fill(row, ZERO);
 
         for (int i = 0; i < x.length; i++) {
             metricMatrix[i][i] = x[i].simplify();
-            inverseMetricMatrix[i][i] = DefaultFunctions.reciprocal(x[i]).simplify();
+            inverseMetricMatrix[i][i] = reciprocal(x[i]).simplify();
         }
 
         metric = new Metric(this, metricMatrix);
@@ -84,7 +84,7 @@ public class Space {
                                         negative(metric.matrix[μ][ν].getSimplifiedDerivative(variableStrings[ρ]))));
                     }
 
-                    christoffelConnection[μ][σ][ν] = new Product(new Constant(0.5), new Sum(sum)).simplify();
+                    christoffelConnection[μ][σ][ν] = new Product(HALF, new Sum(sum)).simplify();
                     System.out.println(variableStrings[μ] + " " + variableStrings[σ] + " " +variableStrings[ν] + " : " + christoffelConnection[μ][σ][ν].toString());
                 }
             }
@@ -182,7 +182,7 @@ public class Space {
                 counter++;
             }
         }
-        return DefaultFunctions.sqrt(new Sum(sum)).simplify();
+        return sqrt(new Sum(sum)).simplify();
     }
 
     public GeneralFunction[][] einsteinTensor() {
