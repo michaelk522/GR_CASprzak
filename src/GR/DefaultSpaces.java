@@ -149,7 +149,7 @@ public class DefaultSpaces {
     });
 
     /**
-     * A {@link Space} representing the surface of a 4-sphere
+     * A {@link Space} representing the surface of a 3-sphere
      */
     public static final Space s3 = new Space(new String[]{"ψ", "θ", "φ"}, new GeneralFunction[]{
             ONE,
