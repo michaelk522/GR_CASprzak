@@ -1,6 +1,5 @@
 package GR.src;
 
-import GR.GR;
 import functions.GeneralFunction;
 import functions.commutative.Product;
 import functions.commutative.Sum;

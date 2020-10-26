@@ -76,6 +76,13 @@ public class GR {
 
         System.out.println(Arrays.deepToString(polar.riemannTensor()));
 
+        System.out.println(Arrays.deepToString(schwarzschildInSchwarzschildCoordinates.ricciTensor()));
+
+        System.out.println(Arrays.deepToString(s2.ricciTensor()));
+
+        System.out.println(s2.ricciScalar());
+
+
     }
 
 

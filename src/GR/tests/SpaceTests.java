@@ -42,10 +42,12 @@ public class SpaceTests {
         GeneralFunction[][][][] test1 = cartesian3d.riemannTensor();
         GeneralFunction[][] test2 = cartesian3d.ricciTensor();
         GeneralFunction test3 = cartesian3d.ricciScalar();
+        GeneralFunction[][][] test4 = cartesian3d.christoffelConnection();
 
         assertTrue(isZero(test1));
         assertTrue(isZero(test2));
         assertTrue(isZero(test3));
+        assertTrue(isZero(test4));
     }
 
     @Test
