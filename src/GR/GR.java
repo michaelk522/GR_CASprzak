@@ -53,13 +53,13 @@ public class GR {
 
         System.out.println(G);
 
-        System.out.println(schwarzschildInSchwarzschildCoordinates.ds());
+        System.out.println(schwarzschild.ds());
 
-        System.out.println(Arrays.deepToString(schwarzschildInSchwarzschildCoordinates.ricciTensor()));
+        System.out.println(Arrays.deepToString(schwarzschild.ricciTensor()));
 
         System.out.println(subtract(ONE, new Product(TWO, reciprocal(r))).simplify());
 
-        GeneralFunction f = schwarzschildInSchwarzschildCoordinates.ricciScalar();
+        GeneralFunction f = schwarzschild.ricciScalar();
 
 
 
@@ -76,7 +76,7 @@ public class GR {
 
         System.out.println(Arrays.deepToString(polar.riemannTensor()));
 
-        System.out.println(Arrays.deepToString(schwarzschildInSchwarzschildCoordinates.ricciTensor()));
+        System.out.println(Arrays.deepToString(schwarzschild.ricciTensor()));
 
         System.out.println(Arrays.deepToString(s2.ricciTensor()));
 

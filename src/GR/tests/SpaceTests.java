@@ -122,9 +122,9 @@ public class SpaceTests {
 
     @Test
     void isSchwarzschildInSchwarzschildCoordinatesNotFlat() {
-        GeneralFunction[][][][] test1 = schwarzschildInSchwarzschildCoordinates.riemannTensor();
-        GeneralFunction[][] test2 = schwarzschildInSchwarzschildCoordinates.ricciTensor();
-        GeneralFunction test3 = schwarzschildInSchwarzschildCoordinates.ricciScalar();
+        GeneralFunction[][][][] test1 = schwarzschild.riemannTensor();
+        GeneralFunction[][] test2 = schwarzschild.ricciTensor();
+        GeneralFunction test3 = schwarzschild.ricciScalar();
 
         assertFalse(isZero(test1));
         assertFalse(isZero(test2));
