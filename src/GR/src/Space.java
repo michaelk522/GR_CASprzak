@@ -12,11 +12,24 @@ import java.util.Arrays;
 import static GR.src.LinearAlgebraTools.*;
 import static tools.DefaultFunctions.*;
 
-
+/**
+ * A {@link Space} is the object that pertains to a Space or Geometry.
+ */
 @SuppressWarnings("NonAsciiCharacters")
 public class Space {
+    /**
+     * The dimension of the {@link Space}
+     */
     public int dim;
+
+    /**
+     * The strings of the {@link Variable}s of the {@link Space}
+     */
     public String[] variableStrings;
+
+    /**
+     * The {@link Variable}s of the {@link Space}
+     */
     public Variable[] variables;
 
     public Metric metric;
