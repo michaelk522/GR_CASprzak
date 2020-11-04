@@ -6,7 +6,6 @@ Hello, and welcome to GR_CAS. When I was learning GR, I reached a point where I 
 More information on the original CASprzak project can be found at: https://github.com/EasyKayzey/CASprzak.
 
 ## Functionality
-### Core
 - Defining a `Space` or Geometry with which you are working in.
     - Defined with a set of variables and a metric
 - Calculating the Christoffel Connection
