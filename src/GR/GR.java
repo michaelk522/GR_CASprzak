@@ -28,8 +28,10 @@ public class GR {
 //        System.out.println(DefaultSpaces.s3.ricciScalar());
 
         Space torus = new Space("u", "v");
-        torus.defMetric(square(new Sum(new Constant(1), new Product(new Constant(1), new Sin(new Variable("v"))))),
-                square(new Constant(1)));
+        torus.defMetric(
+                square(new Sum(ONE, new Sin(new Variable("v")))),
+                ONE
+        );
 
         System.out.println();
         System.out.println(Arrays.deepToString(torus.metric.matrix));
