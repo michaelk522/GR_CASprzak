@@ -7,7 +7,7 @@ More information on the original CASprzak project can be found at: https://githu
 
 ## Functionality
 - Defining a `Space` or Geometry which you are working in.
-    - Defined with a set of variables and a metric
+    - Defined using a set of variables and a metric
 - Calculating the Christoffel Connection
 - Calculating the Riemann Curvature Tensor
 - Calculating the Ricci Tensor
