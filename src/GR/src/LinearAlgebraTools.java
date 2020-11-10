@@ -8,8 +8,18 @@ import java.util.Arrays;
 
 import static tools.DefaultFunctions.*;
 
+/**
+ * This class contains many methods that perform various linear algebra tasks.
+ */
 public class LinearAlgebraTools {
 
+    /**
+     * Calculates the cofactor of a matrix {@code input} that excludes row {@code i} and column {@code j}
+     * @param input the matrix whose cofactor is being found
+     * @param i the row that is being excluded
+     * @param j the column that is being excluded
+     * @return the cofactor matrix
+     */
     public static GeneralFunction[][] cofactorMatrix(GeneralFunction[][] input, int i, int j) {
         if (!isSquare(input))
             throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
@@ -32,10 +42,21 @@ public class LinearAlgebraTools {
         return finalMatrix;
     }
 
+    /**
+     * Calculates the cofactor of a matrix {@code input} that excludes row {@code 0} and column {@code j}
+     * @param input the matrix whose cofactor is being found
+     * @param j the column that is being excluded
+     * @return the cofactor matrix
+     */
     public static GeneralFunction[][] cofactorMatrix(GeneralFunction[][] input, int j) {
         return cofactorMatrix(input, 0, j);
     }
 
+    /**
+     * Calculates the determinant of a matrix {@code input}
+     * @param input the matrix whose determinant is being found
+     * @return the determinant
+     */
     public static GeneralFunction determinant(GeneralFunction[][] input) {
         if (!isSquare(input))
             throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
@@ -56,6 +77,11 @@ public class LinearAlgebraTools {
         return new Sum(terms).simplify();
     }
 
+    /**
+     * Calculates the inverse matrix of a matrix {@code input}
+     * @param input the matrix whose inverse is being found
+     * @return the inverse matrix
+     */
     public static GeneralFunction[][] inverse(GeneralFunction[][] input) {
         if (!isSquare(input))
             throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
@@ -91,6 +117,11 @@ public class LinearAlgebraTools {
         return inverseMatrix;
     }
 
+    /**
+     * Checks if the matrix is diagonal
+     * @param input matrix that is being checked
+     * @return true if the matrix is diagonal
+     */
     public static boolean isDiagonal(GeneralFunction[][] input) {
         if (!isSquare(input))
             throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
@@ -107,6 +138,11 @@ public class LinearAlgebraTools {
         return true;
     }
 
+    /**
+     * Checks if the matrix is symmetric
+     * @param input matrix that is being checked
+     * @return true if the matrix is symmetric
+     */
     public static boolean isSymmetric(GeneralFunction[][] input) {
         if (!isSquare(input))
             throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(input));
@@ -122,6 +158,11 @@ public class LinearAlgebraTools {
         return true;
     }
 
+    /**
+     * Checks if the matrix is square
+     * @param input matrix that is being checked
+     * @return true if the matrix is square
+     */
     public static boolean isSquare(GeneralFunction[][] input) {
         int length = input.length;
         for (GeneralFunction[] array: input) {
@@ -131,6 +172,12 @@ public class LinearAlgebraTools {
         return true;
     }
 
+    /**
+     * Calculates of inverse matrix of a diagonal matrix
+     * DOES NOT CHECK IF MATRIX IS DIAGONAL
+     * @param input matrix whose inverse is being found
+     * @return the inverse matrix
+     */
     public static GeneralFunction[][] inverseDiagonalMatrix(GeneralFunction[][] input) {
         GeneralFunction[][] inverse = Arrays.stream(input)
                 .map(GeneralFunction[]::clone)
@@ -143,6 +190,12 @@ public class LinearAlgebraTools {
         return inverse;
     }
 
+    /**
+     * Calculates of determinant of a diagonal matrix
+     * DOES NOT CHECK IF MATRIX IS DIAGONAL
+     * @param input matrix whose determinant is being found
+     * @return the determinant
+     */
     public static GeneralFunction determinantDiagonalMatrix(GeneralFunction[][] input) {
         GeneralFunction[] terms = new GeneralFunction[input.length];
 
@@ -153,10 +206,20 @@ public class LinearAlgebraTools {
         return new Product(terms).simplify();
     }
 
+    /**
+     * Checks if the function is zero
+     * @param input function that is being checked
+     * @return true if the function is zero
+     */
     public static boolean isZero(GeneralFunction input) {
         return input.equals(ZERO);
     }
 
+    /**
+     * Checks if the matrix is zero
+     * @param input matrix that is being checked
+     * @return true if the matrix is zero
+     */
     public static boolean isZero(GeneralFunction[][] input) {
         for (GeneralFunction[] array : input) {
             for (GeneralFunction function : array) {
@@ -168,6 +231,11 @@ public class LinearAlgebraTools {
         return true;
     }
 
+    /**
+     * Checks if the rank 3 tensor is zero
+     * @param input rank 3 tensor that is being checked
+     * @return true if the rank 3 tensor is zero
+     */
     public static boolean isZero(GeneralFunction[][][] input) {
         for (GeneralFunction[][] array1 : input) {
             for (GeneralFunction[] array2 : array1) {
@@ -181,6 +249,11 @@ public class LinearAlgebraTools {
         return true;
     }
 
+    /**
+     * Checks if the rank 4 tensor is zero
+     * @param input rank 4 tensor that is being checked
+     * @return true if the rank 4 tensor is zero
+     */
     public static boolean isZero(GeneralFunction[][][][] input) {
         for (GeneralFunction[][][] array1 : input) {
             for (GeneralFunction[][] array2 : array1) {
