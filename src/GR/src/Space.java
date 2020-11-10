@@ -32,7 +32,13 @@ public class Space {
      */
     public Variable[] variables;
 
+    /**
+     * The {@link Metric} of the {@link Space}
+     */
     public Metric metric;
+    /**
+     * The {@link InverseMetric} of the {@link Space}
+     */
     public InverseMetric inverseMetric;
 
     private GeneralFunction[][][] christoffelConnection = null;
@@ -41,30 +47,47 @@ public class Space {
     private GeneralFunction ricciScalar = null;
     private GeneralFunction[][] einsteinTensor = null;
 
-
+    /**
+     * Constructs a new {@link Space}
+     * @param variableNames the names of the {@link Variable}s of the {@code Space}
+     */
     public Space(String... variableNames) {
         dim = variableNames.length;
         variableStrings = variableNames;
         variables = Arrays.stream(variableNames).map(Variable::new).toArray(Variable[]::new);
     }
 
-    public Space(String[] variableNames, GeneralFunction[] x) {
+    /**
+     * Constructs a new {@link Space}
+     * @param variableNames the names of the {@link Variable}s of the {@code Space}
+     * @param metric the diagonal {@code Metric} of the code as a {@code GeneralFunction[]}
+     */
+    public Space(String[] variableNames, GeneralFunction[] metric) {
         dim = variableNames.length;
         variableStrings = variableNames;
         variables = Arrays.stream(variableNames).map(Variable::new).toArray(Variable[]::new);
-        defMetric(x);
+        defMetric(metric);
     }
 
-    public Space(String[] variableNames, GeneralFunction[][] x) {
+    /**
+     * Constructs a new {@link Space}
+     * @param variableNames the names of the {@link Variable}s of the {@code Space}
+     * @param metric the {@code Metric} of the code as a {@code GeneralFunction[][]}
+     */
+    public Space(String[] variableNames, GeneralFunction[][] metric) {
         dim = variableNames.length;
         variableStrings = variableNames;
         variables = Arrays.stream(variableNames).map(Variable::new).toArray(Variable[]::new);
-        defMetric(x);
+        defMetric(metric);
     }
 
-    public void defMetric(GeneralFunction... x) {
-        if (x.length != dim)
-            throw new IllegalArgumentException("Expected " + dim + " functions but instead got " + x.length + ".");
+    /**
+     * Defines the {@link Metric}  for the the {@link Space}
+     * @param metric the diagonal {@code Metric} that is being passed in as a {@code GeneralFunction[]}
+     */
+    public void defMetric(GeneralFunction... metric) {
+        if (metric.length != dim)
+            throw new IllegalArgumentException("Expected " + dim + " functions but instead got " + metric.length + ".");
 
         GeneralFunction[][] metricMatrix = new GeneralFunction[dim][dim];
         GeneralFunction[][] inverseMetricMatrix = new GeneralFunction[dim][dim];
@@ -74,69 +97,97 @@ public class Space {
         for (GeneralFunction[] row : inverseMetricMatrix)
             Arrays.fill(row, ZERO);
 
-        for (int i = 0; i < x.length; i++) {
-            metricMatrix[i][i] = x[i].simplify();
-            inverseMetricMatrix[i][i] = reciprocal(x[i]).simplify();
+        for (int i = 0; i < metric.length; i++) {
+            metricMatrix[i][i] = metric[i].simplify();
+            inverseMetricMatrix[i][i] = reciprocal(metric[i]).simplify();
         }
 
-        metric = new Metric(metricMatrix, true);
+        this.metric = new Metric(metricMatrix, true);
         inverseMetric = new InverseMetric(inverseMetricMatrix, true);
     }
 
-    public void defMetric(GeneralFunction[][] x) {
-        if (!isSquare(x))
-            throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(x));
-        if(x.length == 0)
+    /**
+     * Defines the {@link Metric}  for the the {@link Space}
+     * @param metric the {@code Metric} that is being passed in as a {@code GeneralFunction[][]}
+     */
+    public void defMetric(GeneralFunction[][] metric) {
+        if (!isSquare(metric))
+            throw new IllegalArgumentException("The matrix provided is not square: " + Arrays.deepToString(metric));
+        if(metric.length == 0)
             throw new IllegalArgumentException("Can not have an metric of size 0.");
-        if (!isSymmetric(x))
-            throw new IllegalArgumentException("The matrix provided is not symmetric: " + Arrays.deepToString(x));
+        if (!isSymmetric(metric))
+            throw new IllegalArgumentException("The matrix provided is not symmetric: " + Arrays.deepToString(metric));
 
-        for (int i = 0; i < x.length; i++) {
-            for (int j = 0; j < x.length; j++) {
-                x[i][j] = x[i][j].simplify();
+        for (int i = 0; i < metric.length; i++) {
+            for (int j = 0; j < metric.length; j++) {
+                metric[i][j] = metric[i][j].simplify();
             }
         }
 
-        if (isDiagonal(x)) {
-            metric = new Metric(x, true);
-            inverseMetric = new InverseMetric(inverseDiagonalMatrix(x), true);
+        if (isDiagonal(metric)) {
+            this.metric = new Metric(metric, true);
+            inverseMetric = new InverseMetric(inverseDiagonalMatrix(metric), true);
         } else {
-            metric = new Metric(x, false);
-            inverseMetric = new InverseMetric(inverse(x), false);
+            this.metric = new Metric(metric, false);
+            inverseMetric = new InverseMetric(inverse(metric), false);
         }
 
     }
 
+    /**
+     * Gets the Christoffel Connection of the the {@link Space}
+     * @return the Christoffel Connection
+     */
     public GeneralFunction[][][] christoffelConnection() {
         if (christoffelConnection == null)
             calculateChristoffelConnection();
         return christoffelConnection;
     }
 
+    /**
+     * Gets the Riemann Tensor of the the {@link Space}
+     * @return the Riemann Tensor
+     */
     public GeneralFunction[][][][] riemannTensor() {
         if (riemannTensor == null)
             calculateRiemannTensor();
         return riemannTensor;
     }
 
+    /**
+     * Gets the Ricci Tensor of the the {@link Space}
+     * @return the Ricci Tensor
+     */
     public GeneralFunction[][] ricciTensor() {
         if (ricciTensor == null)
             calculateRicciTensor();
         return ricciTensor;
     }
 
+    /**
+     * Gets the Ricci Scalar of the the {@link Space}
+     * @return the Ricci Scalar
+     */
     public GeneralFunction ricciScalar() {
         if (ricciScalar == null)
             calculateRicciScalar();
         return ricciScalar;
     }
 
+    /**
+     * Gets the Einstein Tensor of the the {@link Space}
+     * @return the Einstein Tensor
+     */
     public GeneralFunction[][] einsteinTensor() {
         if (einsteinTensor == null)
             calculateEinsteinTensor();
         return einsteinTensor;
     }
 
+    /**
+     * Gets the line element of the the {@link Space}
+     * @return the line element
+     */
     public GeneralFunction ds() {
         GeneralFunction[] sum = new GeneralFunction[dim*dim];
         int counter = 0;
@@ -153,6 +204,10 @@ public class Space {
         return sqrt(new Sum(sum)).simplify();
     }
 
+    /**
+     * Gets the volume element of the the {@link Space}
+     * @return the volume element
+     */
     public GeneralFunction volumeElement() {
         if (metric.isDiagonal)
             return sqrt(determinantDiagonalMatrix(metric.matrix)).simplify();
