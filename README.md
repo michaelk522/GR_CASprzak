@@ -18,7 +18,7 @@ More information on the original CASprzak project can be found at: https://githu
 
 ## Running
 - Open this project in a decent Java IDE and write scripts in there
-    - All code relating to this specific project can be found in `src\GR`
+    - All code relating to this specific project can be found in `src/GR`
     - Look at the example code if you need help getting started
 
 ## Contacts
